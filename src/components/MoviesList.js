@@ -3,7 +3,11 @@ import WatchedMovie from "./WatchedMovie";
 import WatchedMoviesSummary from "./WatchedMoviesSummary";
 import Movie from "./Movie";
 
-export default function MoviesList({ movies, isWatchedList }) {
+export default function MoviesList({
+  movies,
+  isWatchedList,
+  handleSelectedMovie,
+}) {
   const [isOpen1, setIsOpen1] = useState(true);
 
   return (
@@ -17,10 +21,14 @@ export default function MoviesList({ movies, isWatchedList }) {
       {isOpen1 && (
         <>
           {isWatchedList && <WatchedMoviesSummary watched={movies} />}
-          <ul className="list">
+          <ul className="list list-movies">
             {!isWatchedList &&
               movies?.map((movie) => (
-                <Movie movie={movie} key={movie.imdbID} />
+                <Movie
+                  movie={movie}
+                  key={movie.imdbID}
+                  handleSelectedMovie={handleSelectedMovie}
+                />
               ))}
             {isWatchedList &&
               movies?.map((movie) => (

@@ -242,6 +242,11 @@ body {
 .details {
   line-height: 1.4;
   font-size: 1.4rem;
+  width: 42rem;
+  background-color: var(--color-background-500);
+  border-radius: 7px;
+  position: relative;
+  overflow: hidden;
 }
 
 .details header {

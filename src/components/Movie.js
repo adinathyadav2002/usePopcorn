@@ -1,8 +1,8 @@
 import React from "react";
 
-export default function Movie({ movie }) {
+export default function Movie({ movie, handleSelectedMovie }) {
   return (
-    <li>
+    <li onClick={() => handleSelectedMovie(movie.imdbID)}>
       <img
         src={movie.Poster !== "N/A" ? movie.Poster : "image-not-found.png"}
         alt={`${movie.Title} poster`}
