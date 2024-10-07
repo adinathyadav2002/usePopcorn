@@ -10,12 +10,13 @@ This is a React app that shows information about movies and maintains your watch
 4. **Reusable Rating Component**: Implements a reusable `RatingCom` component from a previous project.
 5. **DOM Manipulation**: Adds events such as `keydown` and dynamically updates the page title.
 6. **Error Handling**: Manages cases for movie not found and API fetching errors.
+7. **Decreasing Fetch Requests**: Use of AbortController API to minimize fetch time and maintain the last fetch on UI.
 
 ## Installation Guide
 
 ### Step 1: Download the Project from GitHub as a ZIP
 
-1. Go to the [GitHub repository](link_to_your_repo).
+1. Go to the [GitHub repository](https://github.com/adinathyadav2002/usePopcorn?tab=readme-ov-file).
 2. Click the **Code** button (green).
 3. From the dropdown, select **Download ZIP**.
 
