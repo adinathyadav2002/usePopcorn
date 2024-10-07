@@ -7,6 +7,7 @@ export default function MoviesList({
   movies,
   isWatchedList,
   handleSelectedMovie,
+  onWatchedMovieDelete,
 }) {
   const [isOpen1, setIsOpen1] = useState(true);
 
@@ -20,7 +21,12 @@ export default function MoviesList({
       </button>
       {isOpen1 && (
         <>
-          {isWatchedList && <WatchedMoviesSummary watched={movies} />}
+          {isWatchedList && (
+            <WatchedMoviesSummary
+              watched={movies}
+              onWatchedMovieDelete={onWatchedMovieDelete}
+            />
+          )}
           <ul className="list list-movies">
             {!isWatchedList &&
               movies?.map((movie) => (
@@ -32,7 +38,11 @@ export default function MoviesList({
               ))}
             {isWatchedList &&
               movies?.map((movie) => (
-                <WatchedMovie movie={movie} key={movie.imdbID} />
+                <WatchedMovie
+                  movie={movie}
+                  key={movie.imdbID}
+                  onWatchedMovieDelete={onWatchedMovieDelete}
+                />
               ))}
           </ul>
         </>

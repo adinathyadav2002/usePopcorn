@@ -10,7 +10,14 @@ export default function MovieDetails({
 }) {
   const [movieDetails, setMovieDetails] = useState({});
   const [isLoading, setIsLoading] = useState(false);
-  const [userRating, setUserRating] = useState(0);
+  const indexOfWatchedMovie = watchedMovies
+    .map((movie) => movie.imdbID)
+    .indexOf(selectedId);
+  const [userRating, setUserRating] = useState(
+    indexOfWatchedMovie !== -1
+      ? watchedMovies.at(indexOfWatchedMovie).userRating
+      : 0
+  );
 
   const {
     Title: title,
@@ -40,13 +47,8 @@ export default function MovieDetails({
     oncloseMovie();
   }
 
-  function isAdded() {
-    return watchedMovies.some((movie) => {
-      return movie.imdbID === selectedId;
-    });
-  }
-
   const KEY = "863bbc3d";
+  // hook to fetch movie detail by it's id
   useEffect(
     function () {
       async function getMovieDetails() {
@@ -60,14 +62,43 @@ export default function MovieDetails({
         setIsLoading(false);
       }
       getMovieDetails();
-      let index = -1;
-      watchedMovies.some((movie, idx) => {
-        if (movie.imdbID === selectedId) index = idx;
-        return movie.imdbID === selectedId;
-      });
-      if (index !== -1) setUserRating(watchedMovies.at(index).userRating);
     },
     [selectedId]
+  );
+
+  // hook to change the title of page
+  useEffect(
+    function () {
+      if (!title) return;
+      document.title = `Movie | ${title}`;
+
+      // cleanup function to reset the tile when we unmount the
+      // MoiveDetails component and also when render component with
+      // another movie name
+      return function () {
+        document.title = "usePopcorn";
+      };
+    },
+    [title]
+  );
+
+  // hook to add eventlistener to document
+  useEffect(
+    function () {
+      function callback(e) {
+        if (e.code === "Escape") {
+          oncloseMovie();
+        }
+      }
+      document.addEventListener("keydown", callback);
+
+      // cleanup function so that we don't add more that event listeners
+      // every time when we mount MovieDetails
+      return function () {
+        document.removeEventListener("keydown", callback);
+      };
+    },
+    [oncloseMovie]
   );
 
   return (
@@ -101,10 +132,12 @@ export default function MovieDetails({
                 handleRat={setUserRating}
                 def={userRating}
               />
-              {!isAdded() && userRating > 0 && (
+              {indexOfWatchedMovie === -1 ? (
                 <button className="btn-add" onClick={handleWatchedMovie}>
                   + Add to list
                 </button>
+              ) : (
+                <p>You already rated the movie!</p>
               )}
             </div>
             <p>

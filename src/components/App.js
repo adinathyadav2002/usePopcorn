@@ -14,7 +14,6 @@ export default function App() {
   const [error, setError] = useState("");
   const [query, setQuery] = useState("");
   const [selectedId, setSelectedId] = useState(null);
-
   const KEY = "863bbc3d";
 
   function handleSelectedMovie(id) {
@@ -32,16 +31,24 @@ export default function App() {
     setWatchedMovies((watched) => [...watched, movie]);
   }
 
+  function handleWatchedMovieDelete(id) {
+    setWatchedMovies((watched) =>
+      watched.filter((movie) => movie.imdbID !== id)
+    );
+  }
+
   // when we want to interact with outside world
   // we use useEffects
   useEffect(
     function () {
+      const controller = new AbortController();
       setLoading(true);
       setError("");
       async function fetchMovies() {
         try {
           const res = await fetch(
-            `https://www.omdbapi.com/?apikey=${KEY}&s=${query}`
+            `https://www.omdbapi.com/?apikey=${KEY}&s=${query}`,
+            { signal: controller.signal }
           );
 
           // if the fetch request terminated due to network error
@@ -55,7 +62,7 @@ export default function App() {
           }
           setMovies(data.Search);
         } catch (err) {
-          setError(err.message);
+          if (err.name !== "AbortError") setError(err.message);
         } finally {
           setLoading(false);
         }
@@ -66,7 +73,11 @@ export default function App() {
         setLoading(false);
         return;
       }
+      handleCloseMovie();
       fetchMovies();
+      return function () {
+        controller.abort();
+      };
     },
     [query]
   );
@@ -103,7 +114,11 @@ export default function App() {
             key={selectedId}
           />
         ) : (
-          <MoviesList movies={watched} isWatchedList={true} />
+          <MoviesList
+            movies={watched}
+            isWatchedList={true}
+            onWatchedMovieDelete={handleWatchedMovieDelete}
+          />
         )}
       </main>
     </>
