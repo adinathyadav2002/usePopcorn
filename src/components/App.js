@@ -6,14 +6,17 @@ import NumResult from "./NumResult.js";
 import Loader from "./Loader.js";
 import ErrorMessage from "./ErrorMessage.js";
 import MovieDetails from "./MovieDetails.js";
+import { useLocalStorageState } from "./useLocalStorageState.js";
 
 export default function App() {
+  // should not write any hooks in coditional statements, loop, etc.
   const [movies, setMovies] = useState([]);
-  const [watched, setWatchedMovies] = useState([]);
   const [isLoading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [query, setQuery] = useState("");
   const [selectedId, setSelectedId] = useState(null);
+  // Creating user defined hooks
+  const [watched, setWatchedMovies] = useLocalStorageState([], "watched");
   const KEY = "863bbc3d";
 
   function handleSelectedMovie(id) {
@@ -24,11 +27,16 @@ export default function App() {
   }
 
   function handleCloseMovie() {
-    setSelectedId((selected) => null);
+    setSelectedId((selectedId) => null);
   }
 
   function handleAddWatched(movie) {
     setWatchedMovies((watched) => [...watched, movie]);
+
+    // better way is to use it in use Effects
+    // because it will not remove watched movie when we remove it
+    // so better to use useeffects
+    // localStorage.setItem("watched", JSON.stringify([...watched, movie]));
   }
 
   function handleWatchedMovieDelete(id) {

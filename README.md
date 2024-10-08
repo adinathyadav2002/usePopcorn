@@ -4,13 +4,16 @@ This is a React app that shows information about movies and maintains your watch
 
 ## Key Features
 
-1. **UseEffect Hook**: Synchronizes data with the component lifecycle.
+1. **UseEffect Hook and User Definded Hooks**: Synchronizes data with the component lifecycle(useEffect Hook).
 2. **API Integration**: Fetches movie data from an external API.
 3. **Loading and Error Handling**: Manages movie loading states and network errors.
 4. **Reusable Rating Component**: Implements a reusable `RatingCom` component from a previous project.
 5. **DOM Manipulation**: Adds events such as `keydown` and dynamically updates the page title.
-6. **Error Handling**: Manages cases for movie not found and API fetching errors.
+6. **Error Handling**: Manages cases for movie not found and API fetching errors using try-catch block.
 7. **Decreasing Fetch Requests**: Use of AbortController API to minimize fetch time and maintain the last fetch on UI.
+8. **Store Movies to localhost**: Use of localStorage to store the watched movies to localhost:3000
+9. **Use of Cleanup function**: Used cleanup function to remove eventHandlers, abort the fetch on every render, etc.
+10. **Use of ref's(hook)**: Use of ref's(hook) to handle to focus state when hit enter.
 
 ## Installation Guide
 

@@ -13,9 +13,10 @@ export default function MovieDetails({
   const indexOfWatchedMovie = watchedMovies
     .map((movie) => movie.imdbID)
     .indexOf(selectedId);
+
   const [userRating, setUserRating] = useState(
     indexOfWatchedMovie !== -1
-      ? watchedMovies.at(indexOfWatchedMovie).userRating
+      ? watchedMovies?.at(indexOfWatchedMovie).userRating
       : 0
   );
 

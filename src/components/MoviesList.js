@@ -29,15 +29,15 @@ export default function MoviesList({
           )}
           <ul className="list list-movies">
             {!isWatchedList &&
-              movies?.map((movie) => (
+              movies.map((movie) => (
                 <Movie
                   movie={movie}
-                  key={movie.imdbID}
                   handleSelectedMovie={handleSelectedMovie}
+                  key={movie.imdbID}
                 />
               ))}
             {isWatchedList &&
-              movies?.map((movie) => (
+              movies.map((movie) => (
                 <WatchedMovie
                   movie={movie}
                   key={movie.imdbID}
